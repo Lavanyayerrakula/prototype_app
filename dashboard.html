@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TrueCost · Before and After Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&display=swap">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="dash.css">
+</head>
+<body class="dash">
+<div class="layout">
+ <aside class="sb" id="sb">
+  <div class="logo"><span class="mk" id="mk"></span><span>TrueCost Analytics<small>Urban vertical farm · Team 2</small></span></div>
+  <div class="grp">Views</div>
+  <nav id="views"></nav>
+  <div class="grp">KPIs</div>
+  <nav id="kpinav"></nav>
+  <div class="foot">Synthetic data: Dataset 1 (2025) and Dataset 2 (2026, simulated with TrueCost). Both 52 weeks, 2,365 rows.</div>
+ </aside>
+ <div>
+  <header class="top"><div class="in">
+   <button class="burger" id="burger" aria-label="Open menu"></button>
+   <div class="crumb" id="crumb"></div>
+   <div class="seg" role="group" aria-label="Sales channel" id="chseg">
+    <button data-ch="all" aria-pressed="true">All channels</button><button data-ch="hh" aria-pressed="false">Households</button><button data-ch="re" aria-pressed="false">Restaurants</button>
+   </div>
+  </div></header>
+  <main class="content" id="app"></main>
+ </div>
+</div>
+<script src="config.js"></script>
+<script src="apexcharts.min.js"></script>
+<script src="gsap.min.js"></script>
+<script src="ScrollTrigger.min.js"></script>
+<script src="icons.js"></script>
+<script src="data.js"></script>
+<script src="dashboard.js"></script>
+</body></html>
