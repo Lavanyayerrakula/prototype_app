@@ -78,7 +78,7 @@ function home(){
    <h1 id="heroH" style="font-size:clamp(36px,4.6vw,56px)">${"See what every crop".split(" ").map(w=>`<span class="w"><span>${w}</span></span>`).join(" ")} <span class="w"><span class="hl">really</span></span> <span class="w"><span class="hl">costs.</span></span></h1>
    <p class="lead reveal">A small vertical farm sells 9 crops to households and restaurants, but never knew which ones made money. In TrueCost, <b class="strong">staff</b> log what each crop used, <b class="strong">customers</b> place orders, and the <b class="strong">founder</b> sees the true cost and profit of everything.</p>
    <div class="ctas reveal"><button class="btn btn-primary btn-lg" id="tourStart">${ic("play","sm")}Take the 2-minute tour</button><button class="btn btn-secondary btn-lg" id="toRoles">Choose a role ${ic("arrow-right","sm")}</button></div>
-   <p class="help reveal" style="margin-top:14px">No sign-up or password. Everything you enter stays in this browser.</p></div>
+   <p class="help reveal" style="margin-top:14px">Each portal has a simple demo login with the details filled in. Everything stays in this browser.</p></div>
   <div class="flowmap reveal" aria-label="How TrueCost works">
    <div class="fm-col"><button class="fm-node" data-go="staff"><span class="iconbox green">${ic("notebook-pen")}</span><div><b>Staff</b><span>log hours, power, harvest and waste</span></div></button><button class="fm-node" data-go="customer"><span class="iconbox blue">${ic("shopping-basket")}</span><div><b>Customers</b><span>buy weekly boxes and place orders</span></div></button></div>
    <svg class="fm-arrows" viewBox="0 0 60 220" preserveAspectRatio="none" aria-hidden="true"><path d="M2 55 C 30 55, 30 110, 58 110"/><path d="M2 165 C 30 165, 30 110, 58 110"/>${[0].map(d=>`<circle r="3.5" class="pkt"><animateMotion dur="2.6s" begin="${d}s" repeatCount="indefinite" path="M2 55 C 30 55, 30 110, 58 110"/></circle><circle r="3.5" class="pkt b"><animateMotion dur="2.6s" begin="${d+.35}s" repeatCount="indefinite" path="M2 165 C 30 165, 30 110, 58 110"/></circle>`).join("")}</svg>
@@ -117,12 +117,36 @@ function contact(){ return phead("field3","mail","Contact","Questions about boxe
  <form class="card reveal" id="cform" novalidate style="padding:26px;box-shadow:var(--sh-2)"><h3 style="font-size:18px">Send a message</h3><div class="grid" style="gap:14px;margin-top:16px"><label class="field"><span>Your name</span><input class="input" id="cn" autocomplete="name"></label><label class="field"><span>Email</span><input class="input" id="ce" type="email" autocomplete="email"></label><label class="field"><span>I am a</span><select class="input" id="ct"><option>Household</option><option>Restaurant</option><option>Other</option></select></label><label class="field"><span>Message</span><textarea class="input" id="cm" rows="4"></textarea></label><div class="error" id="cerr"></div><button class="btn btn-primary btn-lg">${ic("mail","sm")}Send message</button></div></form></div></section>`; }
 
 /* ---------- auth ---------- */
-const AUTH={staff:{im:"field1",t:"Welcome to the grow room",d:"Log harvests, hours and waste for each crop. About two minutes a week.",def:"Maya R.",avs:["👩‍🌾","🧑‍🌾","👨‍🌾","🧑‍🔬"]},founder:{im:"orchard1",t:"Your farm, in numbers",d:"Margins, KPIs, staff records, orders and what-if testing in one place.",def:"Farm founder",avs:["👩‍💼","🧑‍💼","👨‍💼","📊"]}};
-function auth(role){ const c=AUTH[role]; return `<div class="auth"><div class="art"><img src="${img(c.im)}" alt=""><div class="q"><span class="badge green" style="background:rgba(255,255,255,.15);color:#fff">${role==="staff"?"Staff":"Founder"} portal</span><h2 style="margin-top:12px">${c.t}</h2><p>${c.d}</p></div></div>
- <div class="form"><form id="lform"><h1>Sign in</h1><p class="muted" style="margin-top:6px">Demo access: no password needed.</p><div class="grid" style="gap:16px;margin-top:24px"><label class="field"><span>Your name</span><input class="input" id="ln" value="${c.def}" autocomplete="name"></label><div class="field"><span>Avatar</span><div class="avs">${c.avs.map((a,i)=>`<button type="button" aria-pressed="${i===0}" data-av="${a}">${a}</button>`).join("")}</div></div><button class="btn btn-primary btn-lg" style="width:100%">Continue to ${role} portal ${ic("arrow-right","sm")}</button><p class="help" style="text-align:center">A production version would use real accounts and roles.</p></div></form></div></div>`; }
-function authInit(role){ let av=$$(".avs button")[0].dataset.av; $$(".avs button").forEach(b=>b.onclick=()=>{ av=b.dataset.av; $$(".avs button").forEach(x=>x.setAttribute("aria-pressed",x===b)); });
- if(G){ G.from(".auth .art img",{scale:1.15,duration:2.5,ease:"power2.out"}); G.from(".auth .q > *",{y:20,opacity:0,stagger:.1,duration:.7,delay:.2}); G.from("#lform > *, #lform .grid > *",{y:16,opacity:0,stagger:.06,duration:.5,delay:.1}); }
- $("#lform").onsubmit=e=>{ e.preventDefault(); const n=$("#ln").value.trim()||"Demo user"; S.session[role]={name:n,av}; save(); toast(`Signed in as ${n}`); render(); }; }
+const AUTH={
+ staff:{im:"field1",icon:"notebook-pen",tone:"green",label:"Staff portal",t:"Welcome to the grow room",d:"Log what each crop used this week. It takes about two minutes.",pts:["Pick a crop and type the week's numbers","Sellable pounds fill in by themselves","See the true cost before you save"],acc:[["Maya R.","maya@truecost-farm.example","👩‍🌾"]]},
+ customer:{im:"mixed-greens",icon:"shopping-basket",tone:"blue",label:"Customer portal",t:"Fresh greens, grown a mile away",d:"Households get weekly boxes. Restaurants order by the pound.",pts:["Weekly boxes from $26","Order any crop by the pound","Track every order to your door"],acc:[["Household","priya@example.com","🏡","CU-001"],["Restaurant","chef@demobistro.example","🍽️","CU-002"]]},
+ founder:{im:"orchard1",icon:"chart-pie",tone:"violet",label:"Founder portal",t:"Your farm, in numbers",d:"Margins, KPIs, staff records, orders and price testing in one place.",pts:["All 6 KPIs, 2026 against 2025","Which crops make or lose money","Test a price before changing it"],acc:[["Farm founder","founder@truecost-farm.example","👩‍💼"]]}};
+let loginAcc=0;
+function login(role){ const c=AUTH[role], a=c.acc[Math.min(loginAcc,c.acc.length-1)];
+ return `<div class="auth"><div class="art"><img src="${img(c.im)}" alt=""><div class="q"><span class="badge" style="background:rgba(255,255,255,.16);color:#fff">${ic(c.icon,"sm")}${c.label}</span><h2 style="margin-top:14px">${c.t}</h2><p>${c.d}</p><ul class="apts">${c.pts.map(x=>`<li>${ic("check","sm")}${x}</li>`).join("")}</ul></div></div>
+ <div class="form"><form id="lform" novalidate><span class="iconbox ${c.tone}" style="width:44px;height:44px">${ic(c.icon)}</span><h1 style="margin-top:16px">Sign in</h1><p class="muted" style="margin-top:6px">to the ${c.label.toLowerCase()}</p>
+ ${c.acc.length>1?`<div class="field" style="margin-top:22px"><span>I am a</span><div class="seg" id="lacc" style="width:100%">${c.acc.map((x,k)=>`<button type="button" data-acc="${k}" aria-pressed="${k===loginAcc}" style="flex:1">${x[2]} ${x[0]}</button>`).join("")}</div></div>`:""}
+ <div class="grid" style="gap:14px;margin-top:${c.acc.length>1?14:24}px"><label class="field"><span>Email</span><input class="input" id="le" type="email" value="${a[1]}" autocomplete="username"></label>
+ <label class="field"><span>Password</span><div class="pw"><input class="input" id="lp" type="password" value="demo1234" autocomplete="current-password"><button type="button" id="lshow" aria-label="Show password">${ic("eye","sm")}</button></div></label>
+ <div class="row between" style="font-size:13.5px"><label class="row" style="gap:8px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--brand)"> Remember me</label><button type="button" class="linkbtn" id="lforgot">Forgot password?</button></div>
+ <div class="error" id="lerr"></div>
+ <button class="btn btn-primary btn-lg" id="lgo" style="width:100%">Sign in ${ic("arrow-right","sm")}</button>
+ <div class="demo-note">${ic("info","sm")}<span>Demo login: the details are filled in for you. Passwords are never stored.</span></div>
+ ${role==="customer"?`<p class="center small muted">New customer? <button type="button" class="linkbtn" data-mode="up">Create an account</button></p>`:""}</div></form></div></div>`; }
+function loginInit(role){ const c=AUTH[role];
+ $$("#lacc button").forEach(b=>b.onclick=()=>{ loginAcc=+b.dataset.acc; $$("#lacc button").forEach(x=>x.setAttribute("aria-pressed",x===b)); $("#le").value=c.acc[loginAcc][1]; $("#lerr").textContent=""; });
+ $("#lshow").onclick=()=>{ const p=$("#lp"), s=p.type==="password"; p.type=s?"text":"password"; $("#lshow").innerHTML=ic(s?"eye-off":"eye","sm"); };
+ $("#lforgot").onclick=()=>toast("Demo: any password works","info");
+ $$("[data-mode]").forEach(b=>b.onclick=()=>{ custMode=b.dataset.mode; render(); });
+ $("#lform").onsubmit=e=>{ e.preventDefault(); const m=$("#le").value.trim().toLowerCase(), pw=$("#lp").value; let err="", who=null;
+  if(!/^\S+@\S+\.\S+$/.test(m)) err="Please enter a valid email.";
+  else if(!pw) err="Please enter your password.";
+  else if(role==="customer"){ who=S.customers.find(x=>x.email.toLowerCase()===m); if(!who) err="No account with that email. Create an account below."; }
+  $("#lerr").textContent=err; if(err){ if(G) G.fromTo("#lform",{x:-6},{x:0,duration:.4,ease:"elastic.out(1,.3)"}); return; }
+  const btn=$("#lgo"); btn.disabled=true; btn.innerHTML=`<span class="spin"></span>Signing in`;
+  setTimeout(()=>{ if(role==="customer"){ S.session.customer={id:who.id,name:who.name,av:who.type==="Restaurant"?"🍽️":"🏡"}; custTab="main"; }
+   else { const a=c.acc.find(x=>x[1]===m)||[m.split("@")[0],m,role==="staff"?"🧑‍🌾":"🧑‍💼"]; S.session[role]={name:a[0],av:a[2]}; }
+   save(); toast(`Signed in as ${S.session[role].name}`); render(); },reduce?0:550); }; }
 
 function ensure(role){ if(!S.session[role]){ S.session[role]=role==="staff"?{name:"Maya R.",av:"👩‍🌾"}:{name:"Farm founder",av:"👩‍💼"}; save(); } }
 /* ---------- portal shell ---------- */
@@ -133,7 +157,7 @@ const GUIDE={staff:{t:"What you do here",s:["Pick the crop you harvested this we
 function guide(key){ if(S.hideTips) return `<button class="btn btn-ghost btn-sm" id="showTips" style="margin-bottom:12px">${ic("info","sm")}Show tips</button>`; const g=GUIDE[key];
  return `<div class="guide"><div class="gh"><span class="iconbox green">${ic("lightbulb")}</span><b>${g.t}</b><button class="btn btn-ghost btn-sm" id="hideTips" style="margin-left:auto">Hide</button></div><ol>${g.s.map(x=>`<li>${x}</li>`).join("")}</ol><button class="btn btn-secondary btn-sm gnext" data-go="${g.next[0]}">${g.next[1]} ${ic("arrow-right","sm")}</button></div>`; }
 function shell(role,tabs,cur,title,sub,actions,body,gkey){ const u=S.session[role];
- return `<div class="shell"><aside class="side"><div class="me"><span class="ava" style="background:var(--line-2)">${u.av}</span><div><b>${esc(u.name)}</b><small>${role[0].toUpperCase()+role.slice(1)} portal</small></div></div><div class="lbl">Menu</div>${tabs.map(([k,i,l,n,w])=>`<button data-tab="${k}" aria-current="${k===cur}">${ic(i,"sm")}${l}${n!==undefined&&n!==""?`<span class="cnt ${w?"warn":""}">${n}</span>`:""}</button>`).join("")}<div class="bottom"><button data-go="home">${ic("house","sm")}Back to start</button>${role==="customer"?`<button data-out="customer">${ic("log-out","sm")}Switch account</button>`:""}</div></aside>
+ return `<div class="shell"><aside class="side"><div class="me"><span class="ava" style="background:var(--line-2)">${u.av}</span><div><b>${esc(u.name)}</b><small>${role[0].toUpperCase()+role.slice(1)} portal</small></div></div><div class="lbl">Menu</div>${tabs.map(([k,i,l,n,w])=>`<button data-tab="${k}" aria-current="${k===cur}">${ic(i,"sm")}${l}${n!==undefined&&n!==""?`<span class="cnt ${w?"warn":""}">${n}</span>`:""}</button>`).join("")}<div class="bottom"><button data-go="home">${ic("house","sm")}Back to start</button><button data-out="${role}">${ic("log-out","sm")}Sign out</button></div></aside>
  <section class="pmain">${guide(gkey||role)}<div class="ptitle"><div><h1>${title}</h1><p>${sub}</p></div><div class="row">${actions||""}</div></div><div id="pbody">${body}</div></section></div>`; }
 /* ---------- staff ---------- */
 let staffTab="log", editId=null, staffQ="";
@@ -351,7 +375,7 @@ const TOUR=[
  {r:"founder",tab:"margins",t:"Find what loses money",d:"Blue cells make money, amber cells don't cover their share of overhead. Click any cell to see why."},
  {r:"founder",tab:"whatif",t:"Test a price before changing it",d:"Pick a crop and move the price or waste slider. You see the new profit before telling any customer."}];
 function startTour(){ S.tour={on:true,i:0,b:{staff:S.staff.length,orders:S.orders.length}}; save(); tourGo(); }
-function tourGo(){ const s=TOUR[S.tour.i]; if(s.r==="customer"){ const c=S.customers.find(x=>x.id===s.as); S.session.customer={id:c.id,name:c.name,av:"🍽️"}; custTab="main"; }
+function tourGo(){ const s=TOUR[S.tour.i]; if(s.r!=="customer") ensure(s.r); if(s.r==="customer"){ const c=S.customers.find(x=>x.id===s.as); S.session.customer={id:c.id,name:c.name,av:"🍽️"}; custTab="main"; }
  if(s.r==="staff"){ staffTab="log"; editId=null; } if(s.tab) fTab=s.tab; save(); go(s.r); }
 function tourBar(){ let el=$("#tourbar"); if(!S.tour||!S.tour.on){ el?.remove(); document.body.classList.remove("touring"); return; }
  if(!el){ el=document.createElement("div"); el.id="tourbar"; el.className="tourbar"; document.body.append(el); }
@@ -372,18 +396,18 @@ function render(soft){
  $$(".links a,.mnav a").forEach(a=>a.classList.toggle("on",a.dataset.go===r));
  const m=$("#main");
  if(r==="home") m.innerHTML=home(); else if(r==="about") m.innerHTML=about(); else if(r==="crops") m.innerHTML=crops(); else if(r==="contact") m.innerHTML=contact();
- else if(r==="staff"){ ensure("staff"); m.innerHTML=staffView(); }
- else if(r==="customer") m.innerHTML=S.session.customer?custView():custAuth();
- else if(r==="founder"){ ensure("founder"); m.innerHTML=founderView(); }
+ else if(r==="staff") m.innerHTML=S.session.staff?staffView():login("staff");
+ else if(r==="customer") m.innerHTML=S.session.customer?custView():(custMode==="up"?custSignup():login("customer"));
+ else if(r==="founder") m.innerHTML=S.session.founder?founderView():login("founder");
  $("#foot").style.display=["staff","customer","founder"].includes(r)?"none":"";
  $("#who").innerHTML=[["staff","notebook-pen","Staff"],["customer","shopping-basket","Customer"],["founder","chart-pie","Founder"]].map(([k,i,l])=>`<a data-go="${k}" class="${r===k?"on":""}" title="${l} portal">${ic(i,"sm")}<span class="t">${l}</span>${S.session[k]?`<span class="live"></span>`:""}</a>`).join("");
  $$("[data-crop]").forEach(b=>b.onclick=()=>openCrop(b.dataset.crop));
- $$("[data-out]").forEach(b=>b.onclick=()=>{ S.session[b.dataset.out]=null; save(); toast("Signed out","log-out"); render(); });
+ $$("[data-out]").forEach(b=>b.onclick=()=>{ S.session[b.dataset.out]=null; custMode="in"; loginAcc=0; save(); toast("Signed out","log-out"); render(); });
  $$("[data-two]").forEach(g=>{ const [a,b]=g.dataset.two.split(","); const f=()=>g.style.gridTemplateColumns=innerWidth<1000?"1fr":`minmax(0,${a}fr) minmax(0,${b}fr)`; f(); });
  if(r==="home") homeInit(); if(r==="crops") cropsInit();
- if(r==="staff") staffInit();
- if(r==="founder") founderInit();
- if(r==="customer") S.session.customer?custInit():custAuthInit();
+ if(r==="staff") S.session.staff?staffInit():loginInit("staff");
+ if(r==="founder") S.session.founder?founderInit():loginInit("founder");
+ if(r==="customer") S.session.customer?custInit():(custMode==="up"?custAuthInit():loginInit("customer"));
  if(r==="contact"){ $$("[data-act]").forEach(b=>b.onclick=()=>{ const n=+b.dataset.act;
   if(n===0){ $("#mapLink").click(); }
   if(n===1){ const t="hello@truecost-farm.example"; (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast("Email copied: "+t,"mail"),()=>toast(t,"mail")); }

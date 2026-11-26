@@ -387,3 +387,19 @@ body.touring .toast{bottom:120px}
 .strike::after{content:"";position:absolute;left:0;right:0;top:52%;height:1.5px;background:#94A3B8;transform:scaleX(0);transform-origin:left;transition:transform .5s ease .2s}
 .strike.on::after{transform:scaleX(1)}
 .pcard:hover{transform:translateY(-3px)}
+
+/* login */
+.auth .art .apts{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:10px}
+.auth .art .apts li{display:flex;align-items:center;gap:10px;color:#E6F4EC;font-size:14.5px}
+.auth .art .apts li svg{width:18px;height:18px;padding:3px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;flex:none}
+.auth .form{background:#fff}
+.auth form .seg button{justify-content:center}
+.pw{position:relative}.pw .input{padding-right:44px;width:100%}
+.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;background:none;border-radius:8px;color:var(--mute);cursor:pointer;display:grid;place-items:center}
+.pw button:hover{background:var(--line-2)}
+.linkbtn{background:none;border:0;padding:0;color:var(--blue);font-weight:600;cursor:pointer;font:inherit;font-weight:600}
+.linkbtn:hover{text-decoration:underline}
+.demo-note{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--mute);background:#F6F8FA;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.demo-note svg{flex:none;margin-top:1px}
+#lgo .spin{margin-right:8px}
+@media(max-width:860px){.auth{grid-template-columns:1fr;min-height:0}.auth .art{min-height:220px;padding:28px}.auth .art .apts{display:none}.auth .form{padding:32px 20px 48px}}

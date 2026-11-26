@@ -114,3 +114,6 @@ body.dash{--brand:#003B5C;--brand-2:#0A4D74}
 .apexcharts-tooltip{border-radius:10px!important;box-shadow:var(--sh-2)!important;border:1px solid var(--line)!important}
 .apexcharts-tooltip-title{background:#FAFBFC!important;border-bottom:1px solid var(--line)!important;font-weight:600!important}
 @media(max-width:640px){.vtabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}.vtab{flex:none;padding:8px 12px}.vtab small{display:none}.vtab .iconbox{width:30px;height:30px}}
+
+.mini{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:12px 12px 4px;background:#fff}
+.mini-h{font-size:12.5px;font-weight:600;color:var(--ink,#0F172A);margin-bottom:2px}
