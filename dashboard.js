@@ -100,7 +100,7 @@ function yearView(){
  return `<div class="head">${head}</div>${tabs()}${strip()}
  ${sec("k1","KPI 1","Lower","True cost per unit vs selling price, by crop","Each bar is what one unit really costs, split into six parts. The square marker is the average price the farm got. A bar taller than its marker loses money after overhead.","TCU = (labor + energy + water + packaging + waste + overhead) ÷ units sold",`<b>$${T.tcu.toFixed(2)}</b><span>per unit sold</span>`,
   `<div class="legend" style="margin-bottom:6px">${[["Labor",C.blue],["Energy",C.sky],["Water & nutrients",C.mint],["Packaging",C.gold],["Waste",C.orange],["Overhead",C.gray]].map(([l,c])=>`<span><i style="background:${c}"></i>${l}</span>`).join("")}<span><i style="background:${C.navy}"></i>Sale price</span></div><div id="c1" class="chart"></div>`)}
- ${sec("k2","KPI 2","Higher","Contribution margin by crop, channel and account","Share of each sales dollar left after the costs that rise and fall with volume. Overhead is not taken out here; that is KPI 6.","CM % = (revenue − variable cost) ÷ revenue",null,
+ ${sec("k2","KPI 2","Higher","Contribution margin by crop, channel and account","Share of each sales dollar left after the costs that rise and fall with volume. Fixed overhead isn't taken out here.","CM % = (revenue − variable cost) ÷ revenue",null,
   `<div class="split"><div><div id="c2" class="chart"></div><p class="small muted" id="c2cap" style="margin-top:6px"></p></div><div><div class="sub-h">Margin traffic lights · every crop in each channel</div><div class="board" id="board"></div><div class="legend" style="margin-top:10px"><span><i style="background:var(--blue-soft);border:1px solid #9CC3E8"></i>Profit after overhead</span><span><i style="background:var(--amber-soft);border:1px solid #E9C77B"></i>Covers variable cost only</span><span><i style="background:var(--orange-soft);border:1px solid #EDB48B"></i>Below variable cost</span></div></div></div>`,
   `<div class="seg" role="group" aria-label="Group by" id="cmBy"><button data-by="crop" aria-pressed="true">Crop</button><button data-by="channel" aria-pressed="false">Channel</button><button data-by="acct" aria-pressed="false">Account</button></div>`)}
  ${sec("k3","KPI 3","Higher","Margin visibility coverage","27 things to cost: 9 crops in 2 channels and 9 accounts (3 box sizes, 6 restaurants). A tile lights up once its margin is calculated from real cost data. Press play to watch the year.","MVC = (lines + accounts with a calculated margin) ÷ 27",`<b id="covBig">0</b><span id="covSub">of 27</span>`,
@@ -238,6 +238,8 @@ function render(){
 }
 $$("#chseg button").forEach(b=>b.onclick=()=>{ch=b.dataset.ch;$$("#chseg button").forEach(x=>x.setAttribute("aria-pressed",x===b));const y0=scrollY;render();scrollTo(0,y0);});
 addEventListener("hashchange",()=>{const v=location.hash.slice(1);if(["y25","y26","cmp"].includes(v)&&v!==view){view=v;render();}});
+const APP=window.TC_APP_URL||"https://lavanyayadav8888-blip.github.io/Vertical-Farming/";
+$$(".toapp").forEach(x=>{ x.href=APP; x.insertAdjacentHTML("afterbegin",ic("arrow-left","sm")); });
 if(window.gsap&&window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 render();
 })();

@@ -1,16 +1,16 @@
 /* Dashboard layout: navy sidebar (Dashboard 1 palette), sticky top bar, KPI strip, one card per KPI. */
 body.dash{--brand:#003B5C;--brand-2:#0A4D74}
 .layout{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
-.sb{position:sticky;top:0;height:100vh;background:linear-gradient(180deg,#003B5C 0%,#002B44 100%);color:#C7D7E4;display:flex;flex-direction:column;padding:18px 14px;overflow-y:auto;z-index:30}
+.sb{position:sticky;top:0;height:100vh;background:linear-gradient(180deg,#1F6A96 0%,#17577D 100%);color:#E2EEF6;display:flex;flex-direction:column;padding:18px 14px;overflow-y:auto;z-index:30}
 .sb .logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700;font-size:16px;padding:4px 8px 18px;letter-spacing:-.01em}
 .sb .logo .mk{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#27B7EC,#0067B9);display:grid;place-items:center;color:#fff;box-shadow:0 6px 16px rgba(39,183,236,.35)}
-.sb .logo small{display:block;font-size:11.5px;font-weight:500;color:#8FB0C8}
-.sb .grp{font-size:11px;font-weight:600;color:#7E9DB5;padding:16px 10px 6px;letter-spacing:.02em}
-.sb a,.sb button.nav{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:9px;color:#C7D7E4;font-size:13.5px;font-weight:500;border:0;background:none;cursor:pointer;text-align:left;transition:background .2s,color .2s}
-.sb a:hover,.sb button.nav:hover{background:rgba(255,255,255,.07);color:#fff}
-.sb button.nav[aria-current=true]{background:rgba(39,183,236,.16);color:#fff;box-shadow:inset 2px 0 0 #27B7EC}
-.sb a .k{margin-left:auto;font-size:11px;color:#7E9DB5}
-.sb .foot{margin-top:auto;padding:14px 10px 4px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#8FB0C8;line-height:1.5}
+.sb .logo small{display:block;font-size:11.5px;font-weight:500;color:#C3DAEA}
+.sb .grp{font-size:11px;font-weight:600;color:#B6D0E3;padding:16px 10px 6px;letter-spacing:.02em}
+.sb a,.sb button.nav{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:9px;color:#E2EEF6;font-size:13.5px;font-weight:500;border:0;background:none;cursor:pointer;text-align:left;transition:background .2s,color .2s}
+.sb a:hover,.sb button.nav:hover{background:rgba(255,255,255,.12);color:#fff}
+.sb button.nav[aria-current=true]{background:rgba(255,255,255,.18);color:#fff;box-shadow:inset 3px 0 0 #7FD8FF}
+.sb a .k{margin-left:auto;font-size:11px;color:#B6D0E3}
+.sb .foot{margin-top:auto;padding:14px 10px 4px;border-top:1px solid rgba(255,255,255,.14);font-size:12px;color:#C3DAEA;line-height:1.5}
 .sb .foot a{padding:8px 0;color:#fff;font-weight:600}
 .top{position:sticky;top:0;z-index:20;background:rgba(247,248,250,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .top .in{display:flex;align-items:center;gap:14px;padding:12px 28px;flex-wrap:wrap}
@@ -117,3 +117,9 @@ body.dash{--brand:#003B5C;--brand-2:#0A4D74}
 
 .mini{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:12px 12px 4px;background:#fff}
 .mini-h{font-size:12.5px;font-weight:600;color:var(--ink,#0F172A);margin-bottom:2px}
+
+.sb .sbapp{margin:0 0 6px;background:rgba(255,255,255,.12);color:#fff;font-weight:600;border:1px solid rgba(255,255,255,.2)}
+.sb .sbapp:hover{background:rgba(255,255,255,.2)}
+.top .topapp{margin-left:auto;margin-right:10px;white-space:nowrap}
+@media(max-width:700px){.top .topapp{display:none}}
+.top .topapp~#chseg{margin-left:0}

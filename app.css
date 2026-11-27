@@ -403,3 +403,14 @@ body.touring .toast{bottom:120px}
 .demo-note svg{flex:none;margin-top:1px}
 #lgo .spin{margin-right:8px}
 @media(max-width:860px){.auth{grid-template-columns:1fr;min-height:0}.auth .art{min-height:220px;padding:28px}.auth .art .apts{display:none}.auth .form{padding:32px 20px 48px}}
+
+/* cart, kpi detail, auto fields */
+.citem{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.citem:last-of-type{border-bottom:0}
+@media(max-width:640px){.citem{flex-wrap:wrap}.citem .stepper{order:3}}
+.stat.sel{border-color:#10B981!important;box-shadow:0 0 0 3px rgba(16,185,129,.16),var(--sh-2)!important}
+.kmini{border:1px solid var(--line);border-radius:10px;padding:6px 12px;background:#FAFBFC;min-width:84px}
+.kmini small{display:block;font-size:11.5px;color:var(--mute)}.kmini b{font-size:17px;letter-spacing:-.02em}
+.kmini.now{background:#ECFDF5;border-color:#A7F3D0}.kmini.now b{color:#047857}
+@media(max-width:760px){.kdet .card-h{flex-direction:column;gap:12px}}
+.input.autoed{background:#F5F3FF;border-color:#DDD6FE}
